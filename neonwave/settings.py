@@ -89,6 +89,11 @@ DATABASES = {
     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://8000-patilacerda-neonwave-pp4-0sntoznmt4.us1.codeanyapp.com",
+    "https://neonwave-f34ab6b9a029.herokuapp.com/"
+]
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
