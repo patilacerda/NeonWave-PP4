@@ -1,0 +1,64 @@
+body {
+    background: fixed center center no-repeat url("/static/images/spinning-room.jpg");
+    background-color: #360388;
+}
+
+.navbar {
+    background-color: #000;
+}
+
+.light-bg {
+    background-color: #fff;
+}
+
+.dark-bg {
+    background-color: #000;
+}
+
+.main-bg {
+    background-color: #0000006e;
+}
+
+.card {
+    color: #fff;
+    border: 8px solid #ff54fbd4 ;
+    border-radius: 14px;
+    background-color: #1c134dde;
+}
+
+.masthead {
+    margin-top: 20rem;
+    position: relative;
+    display: inline-block;
+    height: 33vh;
+    width: 100%;
+}
+
+.masthead-content{
+    margin-top: 10vh;
+}
+
+.link {
+    color: #23BBBB;
+    text-decoration: none;
+}
+
+.link:hover,
+.link:active {
+    color: #ff54fc;
+    text-decoration: underline;
+}
+
+.image-container {
+    position: relative;
+}
+
+.card-img-top {
+    max-width: 100%;
+}
+
+.logo-img {
+    max-width: 80%;
+    position: relative;
+    margin-top: -30rem;
+}
