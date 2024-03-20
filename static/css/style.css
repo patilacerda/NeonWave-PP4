@@ -5,6 +5,13 @@ body {
 
 .navbar {
     background-color: #000;
+    color:rgba(255, 255, 255, 0.55);
+}
+
+.nav-link:hover,
+.nav-link:active {
+    color: #fff;
+    text-decoration: underline;
 }
 
 .light-bg {
@@ -17,6 +24,7 @@ body {
 
 .main-bg {
     background-color: #0000006e;
+    padding: 20px 10px 20px;
 }
 
 .card {
@@ -61,4 +69,12 @@ body {
     max-width: 80%;
     position: relative;
     margin-top: -30rem;
+}
+
+.btn-signup, .btn-edit {
+    background-color: #23BBBB;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: #23BBBB solid;
 }
