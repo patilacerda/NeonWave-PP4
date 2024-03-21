@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-
 {% block content %}
-
 <div class="container-fluid">
     <!-- Booking table -->
     <div class="row justify-content-evenly text-center">
@@ -39,14 +37,14 @@
                             <ul class="pagination mb-3">
                                 {% if page_obj.has_previous %}
                                 <div class="col-4 text-start">
-                                    <li><a href="?page={{ page_obj.previous_page_number }}" class="link "> &laquo; PREV</a>
+                                    <li><a href="?page={{ page_obj.previous_page_number }}" class="link" title="Previous page"> &laquo; PREV</a>
                                     </li>
                                 </div>
                                 {% endif %}
                                 <div class="col-4"><button type="submit" class="btn btn-primary">Book Now</button></div>
                                 {% if page_obj.has_next %}
                                 <div class="col-4 text-end">
-                                    <li><a href="?page={{ page_obj.next_page_number }}" class="link">NEXT &raquo;</a></li>
+                                    <li><a href="?page={{ page_obj.next_page_number }}" class="link" title="Next page">NEXT &raquo;</a></li>
                                 </div>
                                 {% endif %}
                             </ul>
@@ -56,7 +54,6 @@
                 {% endif %}
             </form>
         </div>
-
         <!-- Booked classes table -->
         <div class=" card col-md-4 p-3">
             <div>
@@ -68,23 +65,52 @@
                             <th>Time</th>
                             <th>Activity</th>
                             <th>Status</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- Booked classes will be displayed here -->
                         {% if booked_classes %}
-                            {% for booked_class in booked_classes %}
-                                <tr>
-                                    <td>{{ booked_class.time_available.day|date:"d/m" }}</td>
-                                    <td>{{ booked_class.time_available.time }}</td>
-                                    <td>{{ booked_class.time_available.activity.name }}</td>
-                                    <td>Booked</td>
-                                </tr>
-                            {% endfor %}
+                        {% for booked_class in booked_classes %}
+                        <tr>
+                            <td>{{ booked_class.time_available.day|date:"d/m" }}</td>
+                            <td>{{ booked_class.time_available.time }}</td>
+                            <td>{{ booked_class.time_available.activity.name }}</td>
+                            <td><i class="fa-solid fa-circle-check text-success" title="Confirmed"></i></td>
+                            <td>
+                                <a href="#" class="cancel-booking link-danger" data-bs-toggle="modal" data-bs-target="#cancelModal{{ booked_class.id }}"
+                                    title="Cancel">
+                                <i class="fa-solid fa-trash"></i>
+                                <!-- Cancel Modal -->
+                                <div class="modal fade text-dark" id="cancelModal{{ booked_class.id }}" tabindex="-1"
+                                    aria-labelledby="cancelModalLabel{{ booked_class.id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="cancelModalLabel{{ booked_class.id }}">Confirm Cancellation</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to cancel this booking?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <form action="{% url 'cancel_booking' booked_class.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger">Cancel Booking</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
                         {% else %}
-                            <tr>
-                                <td colspan="4">You don't have any classes booked yet.</td>
-                            </tr>
+                        <tr>
+                            <!--Placeholder-->
+                            <td colspan="4">You don't have any classes booked yet.</td>
+                        </tr>
                         {% endif %}
                     </tbody>
                 </table>
@@ -92,5 +118,4 @@
         </div>
     </div>
 </div>
-
 {% endblock %}
