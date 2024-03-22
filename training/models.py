@@ -10,9 +10,9 @@ class Activity(models.Model):
     """
     name = models.CharField(max_length=200, unique=True)
     description = models.TextField()
-    duration = models.DurationField(default='45 minutes')
+    duration = models.DurationField()
     status = models.IntegerField(choices=STATUS, default=0)
-
+    max_capacity = models.PositiveIntegerField(default=10)
 
     def __str__(self):
         return self.name
