@@ -2,6 +2,22 @@
 {% load static %}
 {% block content %}
 <div class="container-fluid">
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <div class="row text-center">
+        <div class="col-md-6 offset-md-3 z-3 alert alert-danger" role="alert">
+            <div id="bookingLimitMessage" style="display: none;">
+                {{ message }}
+            </div>
+            <script>
+                document.getElementById('bookingLimitMessage').style.display = 'block';
+            </script>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
     <!-- Booking table -->
     <div class="row justify-content-evenly text-center">
         <div class="card col-md-4 p-3">
@@ -80,7 +96,7 @@
                             <td>
                                 <a href="#" class="cancel-booking link-danger" data-bs-toggle="modal" data-bs-target="#cancelModal{{ booked_class.id }}"
                                     title="Cancel">
-                                <i class="fa-solid fa-trash"></i>
+                                <i class="fa-solid fa-trash"></i></a>
                                 <!-- Cancel Modal -->
                                 <div class="modal fade text-dark" id="cancelModal{{ booked_class.id }}" tabindex="-1"
                                     aria-labelledby="cancelModalLabel{{ booked_class.id }}" aria-hidden="true">

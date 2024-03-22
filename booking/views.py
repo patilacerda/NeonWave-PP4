@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.urls import reverse
 from django.views import generic
 from django.http import HttpResponseRedirect
@@ -25,9 +26,14 @@ class BookingListView(generic.ListView):
     def post(self, request, *args, **kwargs):
         form = BookingForm(request.POST)
         if form.is_valid():
+            # Check if user has reached the booking limit
+            if Booking.objects.filter(user=request.user).count() >= 6:
+                messages.error(request, "You have reached the maximum number of bookings. Please cancel a class or wait until your next session is completed.")
+                return redirect('booking')
+            
             selected_class_id = form.cleaned_data['selected_class_id']
             time_available = TimeAvailable.objects.get(pk=selected_class_id)
-
+            
             # Create a booking object
             booking = Booking.objects.create(
                 user=request.user, time_available=time_available)
