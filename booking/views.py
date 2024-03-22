@@ -1,9 +1,12 @@
+from django.db import models
+from django.db.models import Count, F
 from django.contrib import messages
-from django.urls import reverse
 from django.views import generic
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, get_object_or_404
 from .models import TimeAvailable, Booking
+from training.models import Activity
 from .forms import BookingForm
 
 
@@ -12,10 +15,17 @@ class BookingListView(generic.ListView):
     Retrieves the list of time slots available for booking from the database
     and sends them to the template
     """
-    queryset = TimeAvailable.objects.all()
     template_name = 'booking.html'
     context_object_name = 'classes_available'
     paginate_by = 6
+
+    def get_queryset(self):
+        # Get all TimeAvailable objects
+        queryset = TimeAvailable.objects.all()
+        # Filter out classes that have reached maximum capacity
+        queryset = queryset.annotate(num_bookings=Count('booking'))
+        queryset = queryset.filter(num_bookings__lt=models.F('activity__max_capacity'))
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
