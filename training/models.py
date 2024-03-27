@@ -25,3 +25,17 @@ class Activity(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Comment(models.Model):
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name='comments')
+    body = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["-created_on"]
+
+    def __str__(self):
+        return f"Comment {self.body} by {self.user}"
