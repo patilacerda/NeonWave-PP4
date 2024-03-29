@@ -31,7 +31,7 @@
                                 {{activity.description | safe }}
                                 <p>Duration: {{ activity.duration }} minutes</p>
                                 <p class="m-0 text-end text-white font-monospace">
-                                    <a class="link text-end" href="{% url 'activity_comments' activity.slug%}" title="Comments">View Comments <i class="fa-regular fa-comment fs-3"></i></a>
+                                    <a class="link text-end" href="{% url 'activity_detail' activity.slug%}" title="Comments">View Comments <i class="fa-regular fa-comment fs-3"></i></a>
                                 </p>
                             </div>
                         </div>

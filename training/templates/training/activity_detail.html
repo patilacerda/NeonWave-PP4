@@ -49,29 +49,27 @@
                                     <p class="text-white"><i class="fa-regular fa-comments"></i> {{ comment_count }}</p>
                                         {% for comment in comments %}
                                             <div class="row p-2 comments
-                                                    {% if not comment.approved and comment.author == user %}
+                                                    {% if not comment.approved and comment.user == user %}
                                                     faded{% elif not comment.approved %} d-none{% endif %}">
-                                                <p class="font-weight-bold text-decoration-underline">
-                                                    {{ comment.user }}
-                                                    <span class="font-weight-normal">
-                                                        {{ comment.created_on }}
-                                                    </span> wrote:
+                                                <p class="fw-medium fs-5 text-decoration-underline text-capitalize">
+                                                    {{ comment.user }} says:
                                                 </p>
                                                 <div class="col" id="comment{{ comment.id }}">
                                                     {{ comment.body | linebreaks }}
-                                                    {% if not comment.approved and comment.user == user %}
-                                                    <p class="approval">
-                                                        This comment is awaiting approval
-                                                    </p>
-                                                    {% endif %}
                                                 </div>
-                                                <div class="update-btn col text-end mb-5">
+                                                {% if not comment.approved and comment.user == user %}
+                                                <p class="approval">
+                                                    This comment is awaiting approval
+                                                </p>
+                                                {% endif %}
+                                                <span class="fst-italic fs-6">{{ comment.created_on }}</span>
+                                                <div class="col text-end mb-5">
                                                     {% if user.is_authenticated and comment.user == user %}
-                                                    <button class="update-btn btn btn-primary" data-comment_id="{{ comment.id }}">Edit</button>
-                                                    <button class="btn btn-danger" data-comment_id="{{ comment.id }}">Delete</button>
+                                                    <button class="btn btn-edit btn-primary" data-comment_id="{{ comment.id }}">Edit</button>
+                                                    <button class="btn btn-delete btn-danger" data-comment_id="{{ comment.id }}">Delete</button>
                                                     {% endif %}
                                                 </div>
-                                                <hr class="border border-white">
+                                                <hr class="border border-white ms-2">
                                             </div>
                                         <!-- for loop ends here -->
                                         {% endfor %}
@@ -80,10 +78,10 @@
                                     {% if user.is_authenticated %}
                                             <!-- Comment section for registered users -->
                                             <h5>Leave a Comment</h5>
-                                            <form label="comment-body" id="commentForm{{ activity.id }}" method="post" action="{% url 'activity_comments' activity.slug%}">
+                                            <form label="comment-body" id="commentForm{{ activity.id }}" method="post" action="{% url 'activity_detail' activity.slug%}">
                                                 {{ comment_form | crispy }}
                                                 {% csrf_token %}
-                                                <button type="submit">Submit</button>
+                                                <button id="submitButton" type="submit" class="btn btn-signup">Submit</button>
                                             </form>
                                             {% else %}
                                             <p>Please log in to leave a comment.</p>
@@ -93,28 +91,34 @@
                         </div>
                     </div>
                 </div>
-                {% if forloop.counter|divisibleby:3 %}
             </div>
             <div class="row">
-                {% endif %}
                 {% endfor %}
             </div>
         </div>
-        
     </div>
-    {% if is_paginated %}
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-            {% if page_obj.has_previous %}
-            <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link"> &laquo; PREV</a></li>
-            {% endif %}
-            {% if page_obj.has_next %}
-            <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %}
+</div>
+<!-- Delete confirmation modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete comment?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete your comment?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a id="deleteConfirm" href="#" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- index.html content ends here -->
+{% endblock %}
+{% block extras %}
+<script src="{% static 'js/comments.js' %}"></script>
 {% endblock %}

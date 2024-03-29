@@ -43,6 +43,7 @@ def comment_edit(request, slug, comment_id):
     """
 
     """
+    print("edit:", comment_id)
     if request.method == "POST":
 
         queryset = activity.objects.filter(status=1)
