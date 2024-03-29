@@ -30,62 +30,9 @@
                                 <h2>{{activity.name}}</h2>
                                 {{activity.description | safe }}
                                 <p>Duration: {{ activity.duration }} minutes</p>
-                                <p class="m-0 text-end text-white">
-                                    <i class="fa-regular fa-heart fs-3"></i>
-                                    <i class="fa-regular fa-comment fs-3" data-bs-toggle="modal"
-                                        data-bs-target="#commentModal{{ activity.id }}"></i>
+                                <p class="m-0 text-end text-white font-monospace">
+                                    <a class="link text-end" href="{% url 'activity_comments' activity.slug%}" title="Comments">View Comments <i class="fa-regular fa-comment fs-3"></i></a>
                                 </p>
-                            </div>
-                            <!--Modal for comments-->
-                            <div class="modal fade" id="commentModal{{ activity.id }}" tabindex="-1" role="dialog"
-                                aria-labelledby="commentModal{{ activity.id }}Label" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content card">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="commentModal{{ activity.id }}Label">Comments for
-                                                {{ activity.name }} classes:</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close">
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <!-- Display comments here -->
-                                            {% for comment in comments %}
-                                            <div class="p-2 comments
-                                                      {% if not comment.approved and comment.author == user %}
-                                                      faded{% elif not comment.approved %} d-none{% endif %}">
-                                                <p class="font-weight-bold">
-                                                    {{ comment.user }}
-                                                    <span class="font-weight-normal">
-                                                        {{ comment.created_on }}
-                                                    </span> wrote:
-                                                </p>
-                                                <div id="comment{{ comment.id }}">
-                                                    {{ comment.body | linebreaks }}
-                                                </div>
-                                                {% if not comment.approved and comment.author == user %}
-                                                <p class="approval">
-                                                    This comment is awaiting approval
-                                                </p>
-                                                {% endif %}
-                                            </div>
-                                            <!-- for loop ends here -->
-                                            {% endfor %}
-                                        </div>
-                                        <div class="modal-footer">
-                                            {% if user.is_authenticated %}
-                                            <!-- Comment section for registered users -->
-                                            <form id="commentForm{{ activity.id }}" method="post" action="{% url 'home' %}">
-                                                {{ comment_form | crispy }}
-                                                {% csrf_token %}
-                                                <button type="submit">Submit</button>
-                                            </form>
-                                            {% else %}
-                                            <p>Please log in to leave a comment.</p>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
