@@ -1,23 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-
 {% block content %}
-<!-- displaying Django messages -->
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            {% for message in messages %}
-            <div class="alert {{ message.tags }} alert-info alert-dismissible
-              fade show" id="msg" role="alert">
-                {{ message | safe }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
-
 <!-- index.html content starts here -->
 <div class="container-fluid">
     <div class="row">
@@ -47,45 +31,45 @@
                                 <div class="row">
                                     <h5>Comments:</h5>
                                     <p class="text-white"><i class="fa-regular fa-comments"></i> {{ comment_count }}</p>
-                                        {% for comment in comments %}
-                                            <div class="row p-2 comments
-                                                    {% if not comment.approved and comment.user == user %}
-                                                    faded{% elif not comment.approved %} d-none{% endif %}">
-                                                <p class="fw-medium fs-5 text-decoration-underline text-capitalize">
-                                                    {{ comment.user }} says:
-                                                </p>
-                                                <div class="col" id="comment{{ comment.id }}">
-                                                    {{ comment.body | linebreaks }}
-                                                </div>
-                                                {% if not comment.approved and comment.user == user %}
-                                                <p class="approval">
-                                                    This comment is awaiting approval
-                                                </p>
-                                                {% endif %}
-                                                <span class="fst-italic fs-6">{{ comment.created_on }}</span>
-                                                <div class="col text-end mb-5">
-                                                    {% if user.is_authenticated and comment.user == user %}
-                                                    <button class="btn btn-edit btn-primary" data-comment_id="{{ comment.id }}">Edit</button>
-                                                    <button class="btn btn-delete btn-danger" data-comment_id="{{ comment.id }}">Delete</button>
-                                                    {% endif %}
-                                                </div>
-                                                <hr class="border border-white ms-2">
-                                            </div>
-                                        <!-- for loop ends here -->
-                                        {% endfor %}
+                                    {% for comment in comments %}
+                                    <div class="row p-2 comments
+                                        {% if not comment.approved and comment.user == user %}
+                                        faded{% elif not comment.approved %} d-none{% endif %}">
+                                        <p class="fw-medium fs-5 text-decoration-underline text-capitalize">
+                                            {{ comment.user }} says:
+                                        </p>
+                                        <div class="col" id="comment{{ comment.id }}">
+                                            {{ comment.body | linebreaks }}
+                                        </div>
+                                        {% if not comment.approved and comment.user == user %}
+                                        <p class="approval">
+                                            This comment is awaiting approval
+                                        </p>
+                                        {% endif %}
+                                        <span class="fst-italic fs-6">{{ comment.created_on }}</span>
+                                        <div class="col text-end mb-5">
+                                            {% if user.is_authenticated and comment.user == user %}
+                                            <a class="btn btn-edit btn-primary" href="{% url 'comment_edit' activity.slug comment.pk%}">Edit</a>
+                                            <button class="btn btn-delete btn-danger" data-comment_id="{{ comment.id }}" data-activity_slug="{{ activity.slug }}">Delete</button>
+                                            {% endif %}
+                                        </div>
+                                        <hr class="border border-white ms-2">
+                                    </div>
+                                    <!-- for loop ends here -->
+                                    {% endfor %}
                                 </div>
                                 <div class="row">
                                     {% if user.is_authenticated %}
-                                            <!-- Comment section for registered users -->
-                                            <h5>Leave a Comment</h5>
-                                            <form label="comment-body" id="commentForm{{ activity.id }}" method="post" action="{% url 'activity_detail' activity.slug%}">
-                                                {{ comment_form | crispy }}
-                                                {% csrf_token %}
-                                                <button id="submitButton" type="submit" class="btn btn-signup">Submit</button>
-                                            </form>
-                                            {% else %}
-                                            <p>Please log in to leave a comment.</p>
-                                            {% endif %}
+                                    <!-- Comment section for registered users -->
+                                    <h5>Leave a Comment</h5>
+                                    <form label="comment-body" id="commentForm{{ activity.id }}" method="post" action="{% url 'activity_detail' activity.slug%}">
+                                        {{ comment_form | crispy }}
+                                        {% csrf_token %}
+                                        <button id="submitButton" type="submit" class="btn btn-signup">Submit</button>
+                                    </form>
+                                    {% else %}
+                                    <p>Please log in to leave a comment.</p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -116,7 +100,6 @@
         </div>
     </div>
 </div>
-
 <!-- index.html content ends here -->
 {% endblock %}
 {% block extras %}

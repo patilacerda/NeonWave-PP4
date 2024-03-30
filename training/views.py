@@ -44,30 +44,39 @@ def comment_edit(request, slug, comment_id):
 
     """
     print("edit:", comment_id)
+    queryset = Activity.objects.all()
+    activity = get_object_or_404(queryset, slug=slug)
+    comment = get_object_or_404(Comment, pk=comment_id)
+    comment_form = CommentForm(instance=comment)
     if request.method == "POST":
-
-        queryset = activity.objects.filter(status=1)
-        activity = get_object_or_404(queryset, slug=slug)
-        comment = get_object_or_404(Comment, pk=comment_id)
         comment_form = CommentForm(data=request.POST, instance=comment)
-
         if comment_form.is_valid() and comment.user == request.user:
             comment = comment_form.save(commit=False)
             comment.activity = activity
             comment.approved = False
             comment.save()
             messages.add_message(request, messages.SUCCESS, 'Comment Updated!')
+            return HttpResponseRedirect(reverse('activity_detail', args=[slug]))
         else:
             messages.add_message(request, messages.ERROR, 'Error updating comment!')
-
-    return HttpResponseRedirect(reverse('activity_detail', args=[slug]))
+    else:
+        return render(
+        request,
+        "training/edit_comment.html",
+        {
+            "activity": activity,
+            "comment": comment,
+            "comment_form": comment_form,
+        },
+        )
+    
 
 
 def comment_delete(request, slug, comment_id):
     """
 
     """
-    queryset = Post.objects.filter(status=1)
+    queryset = Activity.objects.filter(status=1)
     activity = get_object_or_404(queryset, slug=slug)
     comment = get_object_or_404(Comment, pk=comment_id)
 

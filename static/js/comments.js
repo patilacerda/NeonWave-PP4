@@ -22,8 +22,9 @@ const deleteConfirm = document.getElementById("deleteConfirm");
 
     for (let button of deleteButtons) {
         button.addEventListener("click", (e) => {
-            let commentId = e.target.getAttribute("data-comment_id");
-            deleteConfirm.href = `delete_comment/${commentId}`;
+            const commentId = e.target.getAttribute("data-comment_id");
+            const activitySlug = e.target.getAttribute("data-activity_slug");
+            deleteConfirm.href = `/${activitySlug}/delete_comment/${commentId}`;
             deleteModal.show();
         });
     }
