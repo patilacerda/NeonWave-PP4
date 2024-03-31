@@ -3,10 +3,13 @@ from django.utils.text import slugify
 from .models import Activity, Comment
 from django_summernote.admin import SummernoteModelAdmin
 
+
 # Register your models here.
 @admin.register(Activity)
 class ActivityAdmin(SummernoteModelAdmin):
-
+    """
+    Admin interface for Activity model.
+    """
     list_display = ('name', 'status')
     search_fields = ['name']
     list_filter = ('status',)
@@ -22,12 +25,19 @@ class ActivityAdmin(SummernoteModelAdmin):
 
     prepopulated_fields = {'slug': ('name',)}
 
+
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
+    """
+    Admin interface for Comment model.
+    """
     list_display = ('body', 'created_on', 'user', 'activity', 'approved')
     list_filter = ('created_on', 'approved')
 
     def approve_comments(self, request, queryset):
+        """
+        Mark selected comments as approved.
+        """
         queryset.update(approved=True)
 
     approve_comments.short_description = 'Approve selected comments'

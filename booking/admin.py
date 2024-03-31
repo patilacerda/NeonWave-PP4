@@ -5,19 +5,23 @@ from datetime import timedelta
 from .models import TimeAvailable
 from training.models import Activity
 
+
 # Register your models here.
 @admin.register(TimeAvailable)
 class TimeAvailableAdmin(admin.ModelAdmin):
+    """
+    Customizes the administration interface for TimeAvailable model.
+    """
     formfield_overrides = {
         models.TimeField: {
             'widget': Select(choices=[
-            ('08:00:00', '08:00 AM'),
-            ('09:00:00', '09:00 AM'),
-            ('10:00:00', '10:00 AM'),
-            ('15:00:00', '03:00 PM'),
-            ('16:00:00', '04:00 PM'),
-            ('17:00:00', '05:00 PM'),
-        ])},
+                ('08:00:00', '08:00 AM'),
+                ('09:00:00', '09:00 AM'),
+                ('10:00:00', '10:00 AM'),
+                ('15:00:00', '03:00 PM'),
+                ('16:00:00', '04:00 PM'),
+                ('17:00:00', '05:00 PM'),
+            ])},
     }
 
     list_display = ['activity', 'day', 'time', 'remaining_slots']

@@ -5,6 +5,7 @@ from cloudinary.models import CloudinaryField
 
 STATUS = ((0, "Draft"), (1, "Available"))
 
+
 # Create your models here.
 class Activity(models.Model):
     """
@@ -19,6 +20,10 @@ class Activity(models.Model):
     featured_image = CloudinaryField('image', default='placeholder')
 
     def save(self, *args, **kwargs):
+        """
+        Override save method to automatically generate a slug based on
+        the name field.
+        """
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
@@ -28,9 +33,14 @@ class Activity(models.Model):
 
 
 class Comment(models.Model):
-    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name='comments')
+    """
+    Model representing a comment on an activity.
+    """
+    activity = models.ForeignKey(
+        Activity, on_delete=models.CASCADE, related_name='comments')
     body = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
 

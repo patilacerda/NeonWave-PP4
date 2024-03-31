@@ -20,36 +20,50 @@ class BookingListView(generic.ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        # Get all TimeAvailable objects
+        """
+        Retrieves all TimeAvailable objects and filters out classes
+        that have reached maximum capacity.
+        """
         queryset = TimeAvailable.objects.all()
-        # Filter out classes that have reached maximum capacity
         queryset = queryset.annotate(num_bookings=Count('booking'))
-        queryset = queryset.filter(num_bookings__lt=models.F('activity__max_capacity'))
+        queryset = queryset.filter(num_bookings__lt=models.F(
+            'activity__max_capacity'))
         return queryset
 
     def get_context_data(self, **kwargs):
+        """
+        Adds additional context data to be passed to the template.
+        """
         context = super().get_context_data(**kwargs)
         context['booked_classes'] = Booking.objects.filter(
             user=self.request.user)
         return context
 
     def post(self, request, *args, **kwargs):
+        """
+        Handles the POST request for booking a class.
+        """
         form = BookingForm(request.POST)
         if form.is_valid():
             user_booked_classes = Booking.objects.filter(user=request.user)
-            user_booked_classes_id_list = [booking.time_available.pk for booking in user_booked_classes]
+            user_booked_classes_id_list = [
+                booking.time_available.pk for booking in user_booked_classes]
             new_booking_class_id = int(request.POST['selected_class_id'])
+            # Prevent double booking
             if new_booking_class_id in user_booked_classes_id_list:
                 messages.error(request, "You have already booked this class.")
                 return redirect('booking')
             # Check if user has reached the booking limit
             if user_booked_classes.count() >= 6:
-                messages.error(request, "You have reached the maximum number of bookings. Please cancel a class or wait until your next session is completed.")
+                messages.error(
+                    request, """You have reached the maximum number of
+                    bookings. Please cancel a class or wait until your
+                    next session is completed.""")
                 return redirect('booking')
-            
+
             selected_class_id = form.cleaned_data['selected_class_id']
             time_available = TimeAvailable.objects.get(pk=selected_class_id)
-            
+
             # Create a booking object
             booking = Booking.objects.create(
                 user=request.user, time_available=time_available)
