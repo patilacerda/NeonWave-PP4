@@ -2,24 +2,8 @@
 {% load static %}
 {% block content %}
 <div class="container-fluid">
-    {% if messages %}
-    {% for message in messages %}
-    {% if message.tags == 'error' %}
-    <div class="row text-center">
-        <div class="col-md-6 offset-md-3 z-3 alert alert-danger" role="alert">
-            <div id="bookingLimitMessage" style="display: none;">
-                {{ message }}
-            </div>
-            <script>
-                document.getElementById('bookingLimitMessage').style.display = 'block';
-            </script>
-            {% endif %}
-            {% endfor %}
-            {% endif %}
-        </div>
-    </div>
     <!-- Booking table -->
-    <div class="row justify-content-evenly text-center">
+    <div class="row justify-content-evenly text-center mt-5">
         <div class="card col-md-4 p-3">
             <h3>Select your classes:</h3>
             <form id="booking-form" method="POST">
@@ -125,7 +109,7 @@
                         {% else %}
                         <tr>
                             <!--Placeholder-->
-                            <td colspan="4">You don't have any classes booked yet.</td>
+                            <td colspan="5">You don't have any classes booked yet.</td>
                         </tr>
                         {% endif %}
                     </tbody>
