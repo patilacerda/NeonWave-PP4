@@ -10,21 +10,22 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Google Fonts CSS -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom CSS-->
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <!--Title-->
         <title>NeonFit</title>
+        <link rel="icon" type="image/ico" href="static/images/favicon.ico">
     </head>
     <body class="page-top">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
             <div class="container px-5">
-                <a class="navbar-brand" href="{% url 'home' %}">NeonWave</a>
+                <a class="navbar-brand fs-4" href="{% url 'home' %}"><span class="fw-light">Neon</span><span class="fw-bold">Wave</span></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
@@ -57,7 +58,7 @@
         <!-- Header-->
         <header class="masthead text-center text-white">
             <div class="masthead-content">
-                <img class="logo-img" src="{% static 'images/logo.png' %}">
+                <img class="logo-img" alt="logo" src="{% static 'images/logo.png' %}">
             </div>
             <div class="container">
                 <div class="row">
@@ -79,12 +80,24 @@
             {% endblock content %}
         </main>
         <!-- Footer -->
-        <footer class="footer mt-auto py-3 dark-bg">
-            <p class="m-0 text-center text-white px-5">
-                <i class="fab fa-twitter-square ms-3"></i>
-                <i class="fab fa-instagram-square ms-3"></i>
-                <i class="fab fa-facebook-square ms-3"></i>
-            </p>
+        <footer class="footer mt-auto py-3 dark-bg fs-6">
+            <div class="container">
+                <div class="row">
+                    <div class="col-6 text-start">
+                        <p class="m-2">
+                            <a class="text-white me-4" href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                            <a class="text-white me-4" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                            <a class="text-white me-4" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="Youtube"><i class="fa-brands fa-youtube"></i></a>
+                            <a class="text-white me-4" href="https://www.twitter.com/" target="_blank" rel="noopener" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        </p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <p >
+                            <a class="text-white me-4 text-decoration-none" href="https://github.com/patilacerda" target="_blank" rel="noopener" aria-label="GitHub">&#169; Patricia Lacerda, 2024</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </footer>
         <!-- Bootstrap-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
