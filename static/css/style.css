@@ -1,8 +1,12 @@
 body {
+    font-family: "Lato", sans-serif;
     background: fixed center center no-repeat url("/static/images/spinning-room.jpg");
     background-color: #360388;
 }
 
+h1, h2, h3, h4, h5 {
+    font-family: "Catamaran", sans-serif;
+}
 .navbar {
     background-color: #000;
     color:rgba(255, 255, 255, 0.55);
@@ -25,6 +29,7 @@ body {
 .main-bg {
     background-color: #0000006e;
     padding: 20px 10px 20px;
+    margin-top: 0;
 }
 
 .card {
@@ -71,10 +76,37 @@ body {
     margin-top: -30rem;
 }
 
+.faded {
+    color: rgb(172, 175, 175);
+}
+
+.approval {
+    color: #ff54fc;
+}
+
+.btn-bluedit {
+    background-color: #23BBBB;
+    color: #fff;
+    font-weight: bold;
+}
+
+.btn-delete {
+    color: #fff;
+    background: #ff54fc;
+    font-weight: bold;
+}
+
 .btn-signup {
     background-color: #23BBBB;
     color: #fff;
     font-weight: bold;
     text-transform: uppercase;
     border: #23BBBB solid;
+}
+
+/* Media query for small screens (max-width: 767px) */
+@media (max-width: 767px) {
+    .main-bg {
+        margin-top: -18rem; /* Adjusted margin for small screens */
+    }
 }
