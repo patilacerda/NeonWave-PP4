@@ -1,29 +1,28 @@
 {% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-
 {% block content %}
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 mt-3 left">
             <div class="row">
                 <div class="col-md-3">
-                    <div class="col-md-6">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <div class="row">
-                                    {% if user.is_authenticated %}
-                                    <h5>Edit yor comment:</h5>
-                                    <form label="comment-body" id="commentForm{{ activity.id }}" method="post"
-                                        action="{% url 'comment_edit' activity.slug comment.pk %}">
-                                        {{ comment_form | crispy }}
-                                        {% csrf_token %}
-                                        <button id="submitButton" type="submit" class="btn btn-signup">Submit</button>
-                                    </form>
-                                    {% else %}
-                                    <p>Please log in to leave a comment.</p>
-                                    {% endif %}
-                                </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                {% if user.is_authenticated %}
+                                <h5>Edit yor comment:</h5>
+                                <form id="commentForm{{ activity.id }}" method="post"
+                                    action="{% url 'comment_edit' activity.slug comment.pk %}">
+                                    {{ comment_form | crispy }}
+                                    {% csrf_token %}
+                                    <button id="submitButton" type="submit" class="btn btn-signup">Submit</button>
+                                </form>
+                                {% else %}
+                                <p>Please log in to leave a comment.</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
